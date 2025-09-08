@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8"/>
+<title>HealthPlus Pharmacy</title>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter:wght@400;500;700;900&amp;family=Noto+Sans:wght@400;500;700;900" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+        :root {
+            --primary-color: #34D399;
+            --secondary-color: #fef2f2;
+            --background-color: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a4a4a;
+            --accent-color: #fca5a5;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body class="bg-[var(--background-color)] text-[var(--text-primary)]">
+<div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="border-b border-gray-200">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between whitespace-nowrap py-4">
+<div class="flex items-center gap-8">
+<a class="flex items-center gap-2 text-[var(--text-primary)]" href="#">
+<span class="material-symbols-outlined text-[var(--primary-color)] text-3xl">local_pharmacy</span>
+<h1 class="text-2xl font-bold">MediCare</h1>
+</a>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--primary-color)]" href="#">Offers</a>
+<a class="text-sm font-medium text-[var(--text-primary)] hover:text-[var(--primary-color)] font-semibold" href="#">Pharmacy</a>
+<a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--primary-color)]" href="#">Beauty</a>
+<a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--primary-color)]" href="#">Personal Care</a>
+<a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--primary-color)]" href="#">Baby</a>
+<a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--primary-color)]" href="#">Nutrition</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center gap-4">
+<button class="flex items-center justify-center rounded-full h-10 w-10 bg-[var(--secondary-color)] text-[var(--primary-color)] hover:bg-[var(--accent-color)]">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+<button class="flex items-center justify-center rounded-full h-10 w-10 bg-[var(--secondary-color)] text-[var(--primary-color)] hover:bg-[var(--accent-color)]">
+<span class="material-symbols-outlined">language</span>
+</button>
+</div>
+<div class="flex items-center gap-2">
+<button class="hidden md:inline-block text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--primary-color)]">Sign In</button>
+<button class="bg-[var(--primary-color)] text-white py-2 px-4 rounded-full text-sm font-bold hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-opacity-50">Sign Up</button>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+<div class="flex flex-col items-center justify-center text-center mb-12">
+<h2 class="text-4xl font-bold text-[var(--text-primary)] mb-4">Your Health, Our Priority</h2>
+<p class="text-lg text-[var(--text-secondary)] max-w-2xl">Find everything you need from prescriptions to everyday wellness products. Fast, reliable, and delivered to your door.</p>
+<div class="mt-8 w-full max-w-2xl">
+<label class="relative text-gray-400 focus-within:text-gray-600 block">
+<span class="material-symbols-outlined pointer-events-none w-8 h-8 absolute top-1/2 transform -translate-y-1/2 left-3">search</span>
+<input class="form-input block w-full px-12 py-4 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] sm:text-sm" placeholder="Search for products or health concerns" type="search"/>
+</label>
+</div>
+</div>
+<h2 class="text-3xl font-semibold text-[var(--text-primary)] mb-6 text-center">Shop by Category</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+<a class="group flex flex-col items-center text-center gap-3 p-4 rounded-lg hover:bg-[var(--secondary-color)] transition-colors" href="#">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg shadow-md" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAAlPnsGACR5Zvt24aMpAAYiWPTsbeKsE5LrEFfpUBmVGQfiCt65wwASyFjeL5YBHpJDsqnX9OoSIytwSvpmybLYJ_kqPRaCqvY3Qtu2Nn8fLJ7_Jw3U9Fy-oqN379dP_tMEGxo6oimf3Ibz11sO8sZin4n5TGZsFWWxY4sAotc7LnMYnsuLKBy3XlaSDsdvIfFeeeHVR28KVwoAgX_-CLGdN4lNwMuk__-mehdmNLKh8uTdRJNYJoSitNgkk2Y8wL1hY38uJAhlA");'></div>
+<p class="text-base font-medium text-[var(--text-primary)] group-hover:text-[var(--primary-color)]">Cough, Cold &amp; Fever</p>
+</a>
+<a class="group flex flex-col items-center text-center gap-3 p-4 rounded-lg hover:bg-[var(--secondary-color)] transition-colors" href="#">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg shadow-md" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAtP_uSvSdJy7M73HVdsepOnEViAf7lU-8dC6obvFPmizgkoZbz_CgC7q2EUmjeuvxOiX_h7viSA5xfhsoybjDTqfYJfoSa-0lgzTpSkPz9UiG67dE-RTscMOVEzrSXqmDZ4if7k8oD2CrG4zT_18cen2m0fQusCglUy0wHrJf0HzaGL2QVHbfrO5gN3q0KB2nsUg_2KhNOor1RyMp2I-v_iPWx2VjahpQrbNfq0-X_LksZJ5bSrclsX3cXPjuKOKh0k52sgl4kAw");'></div>
+<p class="text-base font-medium text-[var(--text-primary)] group-hover:text-[var(--primary-color)]">Allergies</p>
+</a>
+<a class="group flex flex-col items-center text-center gap-3 p-4 rounded-lg hover:bg-[var(--secondary-color)] transition-colors" href="#">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg shadow-md" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAWGt3Y72QrKQF6yzKKIpX_6kgdCWy0Yvw24Rmi3L7Nm5EAH47I1EnfMy4b2nZ2K5-RM7N_yHazM8k3__AtH-P2kY9baOOI6mdyQMijquVpdhFQC8fpk5Hn02LzB1LWmfqbQdRiLmlPzMyeEDxpdIPfRnmNt2sVi0lCTbQgTi_LeyHvq0O8mS6idguyGCS0KlozrX-akVOlrUBER7n5H9--Bsdir_qNm6g6wgs4XOSlt9mUYX34HrObXuMlVYRQhUhbbc-PONbo2Q");'></div>
+<p class="text-base font-medium text-[var(--text-primary)] group-hover:text-[var(--primary-color)]">Nutrition</p>
+</a>
+<a class="group flex flex-col items-center text-center gap-3 p-4 rounded-lg hover:bg-[var(--secondary-color)] transition-colors" href="#">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg shadow-md" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD4mgY-EhXAEFfykN35AfimzaVBdq2NBIOP-38uoTbE-G0JZGm05QbAl0rQYcW3Z066dpHlcF62Gd9PN-QuIoMf1soGQF3pL-4dLxsPeU78LNwlT6iCgWmUM_bcJAMe_28GoGTbMiyk65mmbp50Y5cwhoght4_gWCxfj5yp73BosYuTrKFOdKIJ1ABorJUaAc3CYUsEfUVDOlRhqLIT_NWR_qQLkzFiLrBcxV9Un3S54sTgbj_Gnz6Bl-567Jphr2_4wGeflYdWGA");'></div>
+<p class="text-base font-medium text-[var(--text-primary)] group-hover:text-[var(--primary-color)]">Other</p>
+</a>
+</div>
+<div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="bg-white p-6 shadow-md rounded-lg flex items-center justify-between">
+<div class="flex flex-col gap-2">
+<p class="text-lg font-bold text-[var(--text-primary)]">Open 24 Hours</p>
+<p class="text-sm text-[var(--text-secondary)]">Your health doesn't wait, and neither do we.</p>
+<button class="mt-4 bg-[var(--primary-color)] text-white py-2 px-4 rounded-full text-sm font-bold w-fit hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-opacity-50">Shop Now!</button>
+</div>
+<div class="w-1/3 bg-center bg-no-repeat aspect-square bg-contain" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuANNZXjWJ8x877ETyds2KdFwnUnMP-T0D3vN1TsKWIhHTcsoq3NxMhqYC3iTl_k6-p2ZOFjIloBSy_nNh5zA5NSrZm46nuFiiM7vIdrFDIbN8UToDEecWTofQ-blsRsVmScKMAi5LZRufGT1DrDI6thSlP1Dw5_re4M6UqYPfincI-yj2pliQYxdGsL0BlYoeI1yS7ghLYyo__pNONCCybE8zIW8GA9mpkT4k9rU5SIvB6spGCKNzmS-IIujRQCoWrT8LOzGwg3Lw");'></div>
+</div>
+<div class="bg-white p-6 shadow-md rounded-lg flex items-center justify-between">
+<div class="flex flex-col gap-2">
+<p class="text-lg font-bold text-[var(--text-primary)]">FREE DELIVERY</p>
+<p class="text-sm text-[var(--text-secondary)]">On all orders over $35. Convenience delivered.</p>
+<button class="mt-4 bg-[var(--primary-color)] text-white py-2 px-4 rounded-full text-sm font-bold w-fit hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-opacity-50">Shop Now!</button>
+</div>
+<div class="w-1/3 bg-center bg-no-repeat aspect-square bg-contain" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAyud5wFHiZDo-atMjW50R_F8A019-YZokhwDdlvuridVcA_zLFG6dvJBkZ7tr51tDI7y6f2YoNlc26gRsSfCllZ7xGTG45vhMNMU7c3n29oia_odrLRuG8PVew3cjNt5J-2Z5FcWfIuDr2e4OIUwt3j29otFdJ3PxYjtsidM4q-MUsHaH6Md6rcU_-ukBtYs-L1j_nZsXzhhWk4KGmSUvWBcLY25ySI5u7ploBwJhJ97OeE3X3RrjgVbhGDI2BX0_1lpG11uJRFQ");'></div>
+</div>
+</div>
+</main>
+<footer class="bg-gray-50 border-t border-gray-200">
+<div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+<div class="flex flex-wrap items-center justify-center gap-6 mb-4">
+<a class="text-sm text-[var(--text-secondary)] hover:text-[var(--primary-color)]" href="#">Contact Us</a>
+<a class="text-sm text-[var(--text-secondary)] hover:text-[var(--primary-color)]" href="#">FAQ</a>
+<a class="text-sm text-[var(--text-secondary)] hover:text-[var(--primary-color)]" href="#">Terms of Service</a>
+<a class="text-sm text-[var(--text-secondary)] hover:text-[var(--primary-color)]" href="#">Privacy Policy</a>
+</div>
+<p class="text-center text-sm text-[var(--text-secondary)]">© 2025 MediCare. All rights reserved.</p>
+</div>
+</footer>
+</div>
+</div>
+
+</body></html>
