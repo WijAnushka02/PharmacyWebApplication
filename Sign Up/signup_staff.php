@@ -1,21 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staff Sign Up - AXR Pharmacy</title>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Sign In - MediCare Pharmacy</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f2f5;
-            background-image: url('blurred-pharmacy-background.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style type="text/tailwindcss">
+        :root {
+            --primary-color: #34D399;
+            --secondary-color: #f0fdf4;
+            --background-color: #2b9e4d;
+            --text-primary: #1a202c;
+            --text-secondary: #4b5563;
+            --accent-color: #06441d;
         }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+        }
+        
+        /* Updated Navigation CSS for dropdown */
+        .dropdown {
+            position: relative;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            border-radius: 4px;
+            top: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+        .dropdown-content a {
+            color: var(--text-primary);
+            padding: 12px 16px;
+            display: block;
+            text-align: left;
+            transition: background-color 0.3s;
+        }
+        .dropdown-content a:hover {
+            background-color: var(--secondary-color);
+        }
+        .dropdown-content.active {
+            display: block;
+        }
+
 
         .header {
             background-color: #2e7d32;
@@ -80,7 +120,7 @@
         }
 
         .top-nav a:hover {
-            color: #d4e8d5;
+            color: #0c6d11ff;
         }
 
         .top-nav a i {
@@ -113,6 +153,7 @@
         .main-nav a:hover {
             background-color: #1a4d1d;
         }
+      
 
         .main-content {
             display: flex;
@@ -198,60 +239,102 @@
             background-color: #216124;
         }
 
-        .footer {
-            background-color: #2e7d32;
-            color: white;
+        /* Footer Styling */
+        .new-footer {
+            background-color: #f0f2f5;
+            color: #4b5563;
             padding: 20px;
             text-align: center;
+            border-top: 1px solid #e5e7eb;
         }
 
-        .footer-row {
+        .new-footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
-            justify-content: space-around;
             flex-wrap: wrap;
-            gap: 30px;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 20px 0;
+        }
+
+        .new-footer-left {
+            text-align: left;
             margin-bottom: 20px;
         }
 
-        .footer-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .footer-item i {
-            font-size: 2.5em;
+        .new-footer-left h2 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1a202c;
             margin-bottom: 10px;
         }
 
-        .contact-info {
+        .new-footer-left p {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .new-footer-center nav {
             display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            text-align: left;
+            gap: 20px;
+            margin-bottom: 20px;
         }
 
-        .contact-info h3 {
-            margin-bottom: 10px;
+        .new-footer-center nav a {
+            text-decoration: none;
+            color: #4b5563;
+            font-size: 0.9rem;
+            transition: color 0.3s;
         }
 
-        .contact-info p {
+        .new-footer-center nav a:hover {
+            color: #1a202c;
+        }
+
+        .new-footer-right .social-icons {
             display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 5px 0;
+            gap: 15px;
         }
 
-        .copyright {
-            font-size: 0.8em;
-            color: #b0c9b1;
+        .new-footer-right .social-icons a {
+            color: #9ca3af;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .new-footer-right .social-icons a:hover {
+            color: #4b5563;
+        }
+
+        .new-footer .copyright-text {
+            font-size: 0.8rem;
+            color: #9ca3af;
             margin-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 15px;
         }
     </style>
 </head>
 <body>
 
     <?php
+
+        // Database configuration
+        $servername = "localhost"; // The server name. 'localhost' is common for local development.
+        $username = "root"; // Your database username.
+        $password = ""; // Your database password.
+        $dbname = "Pharmacy_db"; // The name of your database.
+
+        // Create a new database connection
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
+        // Check if the connection was successful
+        if ($conn->connect_error) {
+        // If the connection fails, terminate the script and display an error
+        die("Connection failed: " . $conn->connect_error);
+        }
+
         // A simple PHP script to process form submission.
         // NOTE: This is for demonstration only and is not secure or production-ready.
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -282,7 +365,7 @@
 
     <header class="header">
         <div class="logo">
-            <img src="logo.png" alt="AXR Pharmacy Logo">
+            <img src="logo.png" alt="MediCare Pharmacy Logo">
             <span>AXR PHARMACY</span>
         </div>
         <div class="search-bar">
@@ -291,9 +374,9 @@
         </div>
         <nav class="top-nav">
             <ul>
-                <li><a href="#"><i class="fas fa-tags"></i> Offers</a></li>
-                <li><a href="#"><i class="fas fa-shopping-cart"></i> Cart</a></li>
-                <li><a href="#"><i class="fas fa-user"></i> Sign In</a></li>
+                <li><a href="#"> <i class="fas fa-tags"></i> Offers</a></li>
+                <li><a href="#"> <i class="fas fa-shopping-cart"></i> Cart</a></li>
+                <li><a href="#"> <i class="fas fa-user"></i> Sign In</a></li>
                 <li><a href="#">Sign Up</a></li>
             </ul>
         </nav>
@@ -301,15 +384,52 @@
 
     <nav class="main-nav">
         <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Medications <i class="fas fa-caret-down"></i></a></li>
-            <li><a href="#">Prescriptions <i class="fas fa-caret-down"></i></a></li>
-            <li><a href="#">Inventory <i class="fas fa-caret-down"></i></a></li>
-            <li><a href="#">Orders <i class="fas fa-caret-down"></i></a></li>
-            <li><a href="#">Admin <i class="fas fa-caret-down"></i></a></li>
-            <li><a href="#">Support <i class="fas fa-caret-down"></i></a></li>
+            <li><a href="../Home/index.html">Home</a></li>
+            <li class="dropdown">
+                <a href="#" onclick="toggleDropdown(event)">Medications <i class="fas fa-caret-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="#">Search</a>
+                    <a href="#">Categories</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" onclick="toggleDropdown(event)">Prescriptions <i class="fas fa-caret-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="#">Upload</a>
+                    <a href="#">History</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" onclick="toggleDropdown(event)">Inventory <i class="fas fa-caret-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="#">Stock</a>
+                    <a href="#">Expiry</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" onclick="toggleDropdown(event)">Orders <i class="fas fa-caret-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="#">Pending</a>
+                    <a href="#">History</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" onclick="toggleDropdown(event)">Admin <i class="fas fa-caret-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="#">Users</a>
+                    <a href="#">Settings</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" onclick="toggleDropdown(event)">Support <i class="fas fa-caret-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="#">FAQ</a>
+                    <a href="#">Contact</a>
+                </div>
+            </li>
         </ul>
     </nav>
+
 
     <main class="main-content">
         <div class="signup-container">
@@ -364,31 +484,67 @@
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="footer-row">
-            <div class="footer-item">
-                <i class="fas fa-truck"></i>
-                <p>FREE DELIVERY</p>
+    <footer class="new-footer">
+        <div class="new-footer-content">
+            <div class="new-footer-left">
+                <h2>MediCare Pharmacy</h2>
+                <p>123 Health St, Wellness City, 12345</p>
+                <p>Phone: (123) 456-7890</p>
+                <p>Email: contact@medicare.com</p>
             </div>
-            <div class="footer-item">
-                <i class="fas fa-stethoscope"></i>
-                <p>NEW MEDICAL ENCOUNTER</p>
+            <div class="new-footer-center">
+                <nav>
+                    <a href="#">Contact Us</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </nav>
             </div>
-            <div class="footer-item">
-                <i class="fas fa-shield-alt"></i>
-                <p>MEDICAL GUARANTEED</p>
+            <div class="new-footer-right">
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="#" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
             </div>
         </div>
-        <div class="footer-row contact-info">
-            <h3>Contact Info</h3>
-            <p><i class="fas fa-map-marker-alt"></i> Address</p>
-            <p><i class="fas fa-phone"></i> +94 75 256 5423</p>
-            <p><i class="fas fa-envelope"></i> someone@gmail.com</p>
-        </div>
-        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm text-[var(--text-secondary)]">
-            © 2025 MediCare. All rights reserved.
+        <div class="copyright-text">
+            © 2025 MediCare Pharmacy. All rights reserved.
         </div>
     </footer>
 
+    <script>
+        function toggleDropdown(event) {
+            event.preventDefault();
+            const dropdownContent = event.currentTarget.nextElementSibling;
+            
+            // Close all other active dropdowns
+            document.querySelectorAll('.dropdown-content.active').forEach(openDropdown => {
+                if (openDropdown !== dropdownContent) {
+                    openDropdown.classList.remove('active');
+                }
+            });
+
+            // Toggle the 'active' class on the clicked dropdown
+            dropdownContent.classList.toggle('active');
+        }
+
+        // Close dropdowns if the user clicks outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropdown a, .dropdown a *')) {
+                const dropdowns = document.querySelectorAll('.dropdown-content');
+                dropdowns.forEach(dropdown => {
+                    if (dropdown.classList.contains('active')) {
+                        dropdown.classList.remove('active');
+                    }
+                });
+            }
+        }
+    </script>
 </body>
 </html>
