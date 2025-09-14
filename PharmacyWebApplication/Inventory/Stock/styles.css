@@ -1,0 +1,494 @@
+@import url('https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Spline+Sans:wght@400;500;700&family=Material+Symbols+Outlined');
+
+:root {
+    --primary-color: #38e07b;
+    --secondary-color: #034d20;
+    --background-color: #357750;
+    --text-primary: #fffefe;
+    --text-secondary: #a0a0a0;
+    --accent-color: #28a058;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Spline Sans', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    line-height: 1.5;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* --- Header --- */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2.5rem;
+    border-bottom: 1px solid var(--secondary-color);
+    background-color: var(--background-color);
+}
+
+.logo-nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-primary);
+}
+
+.logo .material-symbols-outlined {
+    color: var(--primary-color);
+    font-size: 2rem;
+}
+
+.logo h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.nav {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav a {
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    transition: color 0.2s ease-in-out;
+}
+
+.nav a:hover,
+.nav a.active {
+    color: var(--primary-color);
+}
+
+.user-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.search-bar {
+    position: relative;
+}
+
+.search-bar .material-symbols-outlined {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+}
+
+.search-bar input {
+    width: 15rem;
+    border-radius: 9999px;
+    background-color: var(--secondary-color);
+    padding: 0.625rem 1rem 0.625rem 2.5rem;
+    border: none;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    outline: none;
+}
+
+.search-bar input::placeholder {
+    color: var(--text-secondary);
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 9999px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.icon-button:hover {
+    background-color: var(--secondary-color);
+}
+
+.icon-button .material-symbols-outlined {
+    color: var(--text-primary);
+}
+
+.profile-pic {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    background-image: url('https://placehold.co/100x100');
+    background-size: cover;
+    background-position: center;
+}
+
+/* --- Main Content --- */
+.main-content {
+    flex-grow: 1;
+    padding: 2rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.page-header h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.add-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    padding: 0.625rem 1.25rem;
+    border-radius: 9999px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.add-button:hover {
+    background-color: var(--accent-color);
+}
+
+.add-button .material-symbols-outlined {
+    font-size: 1.25rem;
+}
+
+.inventory-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tabs {
+    display: flex;
+    border-bottom: 2px solid var(--secondary-color);
+}
+
+.tab {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+.tab:hover {
+    color: var(--primary-color);
+}
+
+.tab.active {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    font-weight: 600;
+}
+
+.tab-count {
+    background-color: var(--secondary-color);
+    color: var(--text-primary);
+    padding: 0.125rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+}
+
+.filter-sort {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.search-filter {
+    position: relative;
+    width: 18rem;
+}
+
+.search-filter .material-symbols-outlined {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+}
+
+.search-filter input {
+    width: 100%;
+    border-radius: 9999px;
+    border: 1px solid var(--accent-color);
+    background-color: var(--secondary-color);
+    padding: 0.5rem 1rem 0.5rem 2.5rem;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    outline: none;
+}
+
+.search-filter input::placeholder {
+    color: var(--text-secondary);
+}
+
+.filter-button,
+.sort-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--secondary-color);
+    color: var(--text-primary);
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    border: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.filter-button:hover,
+.sort-button:hover {
+    background-color: var(--accent-color);
+}
+
+.filter-button .material-symbols-outlined,
+.sort-button .material-symbols-outlined {
+    font-size: 1rem;
+}
+
+/* --- Table --- */
+.table-container {
+    overflow-x: auto;
+    border-radius: 0.5rem;
+    border: 1px solid var(--secondary-color);
+    background-color: var(--secondary-color);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+thead {
+    background-color: rgba(var(--accent-color), 0.2);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+th,
+td {
+    padding: 0.75rem 1rem;
+    white-space: nowrap;
+}
+
+tbody tr:hover {
+    background-color: rgba(var(--accent-color), 0.1);
+}
+
+tbody tr {
+    border-top: 1px solid rgba(var(--accent-color), 0.5);
+}
+
+tbody tr:first-child {
+    border-top: none;
+}
+
+td {
+    font-size: 0.875rem;
+}
+
+td:nth-child(1) {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+td:not(:nth-child(1)) {
+    color: var(--text-secondary);
+}
+
+td:last-child {
+    text-align: right;
+}
+
+.action-buttons {
+    display: inline-flex;
+    gap: 0.5rem;
+}
+
+.action-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+}
+
+.action-button.edit {
+    color: var(--text-secondary);
+}
+
+.action-button.edit:hover {
+    color: var(--primary-color);
+}
+
+.action-button.delete {
+    color: var(--text-secondary);
+}
+
+.action-button.delete:hover {
+    color: #ef4444; /* red-500 */
+}
+
+/* --- Pagination --- */
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+}
+
+.pagination-info {
+    color: var(--text-secondary);
+}
+
+.pagination-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.pagination-buttons button {
+    width: 2rem;
+    height: 2rem;
+    background-color: var(--secondary-color);
+    color: var(--text-primary);
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.pagination-buttons button:hover {
+    background-color: var(--accent-color);
+}
+
+.pagination-buttons button.active {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    font-weight: 700;
+}
+
+/* --- Modal --- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-content {
+    background-color: var(--secondary-color);
+    margin: 10% auto;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    color: var(--text-primary);
+}
+
+.modal-content h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+}
+
+.modal-content .close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    color: var(--text-secondary);
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#medicineForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#medicineForm label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+#medicineForm input {
+    padding: 0.75rem;
+    border: 1px solid var(--accent-color);
+    border-radius: 0.25rem;
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    font-size: 1rem;
+    outline: none;
+}
+
+#medicineForm input:focus {
+    border-color: var(--primary-color);
+}
+
+.submit-button {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    margin-top: 1rem;
+}
+
+.submit-button:hover {
+    background-color: var(--accent-color);
+}
