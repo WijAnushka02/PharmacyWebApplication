@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Lexend:wght@400;500;700;900&amp;family=Noto+Sans:wght@400;500;700;900" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<title>PharmaTrack - Inventory Management</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+    :root {
+      --primary-color: #38e07b;
+      --secondary-color: #e6ffe6;
+      --background-color: #f8fff8;
+      --text-primary: #1a1a1a;
+      --text-secondary: #ffffff;
+      --accent-color: #2cc46a;
+    }
+    body {
+      font-family: 'Lexend', sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-primary);
+    }
+  </style>
+</head>
+<body class="bg-[var(--background-color)] text-[var(--text-primary)]">
+<div class="flex min-h-screen flex-col">
+<header class="sticky top-0 z-10 w-full bg-white shadow-md">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<div class="flex h-16 items-center justify-between">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2 text-[var(--text-primary)]">
+<span class="material-symbols-outlined text-[var(--primary-color)] text-3xl">pill</span>
+<h1 class="text-xl font-bold">PharmaTrack</h1>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--primary-color)]" href="#">Dashboard</a>
+<a class="text-sm font-medium text-[var(--primary-color)]" href="#">Inventory</a>
+<a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--primary-color)]" href="#">Orders</a>
+<a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--primary-color)]" href="#">Reports</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden md:block">
+<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+<span class="material-symbols-outlined text-[var(--text-secondary)]">search</span>
+</div>
+<input class="block w-full rounded-md border-gray-300 bg-gray-50 pl-10 pr-4 py-2 text-sm text-[var(--text-primary)] focus:border-[var(--primary-color)] focus:ring-[var(--primary-color)]" placeholder="Search..." type="text"/>
+</div>
+<button class="relative rounded-full p-2 text-[var(--text-secondary)] hover:bg-[var(--secondary-color)] hover:text-[var(--primary-color)]">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 h-2 w-2 rounded-full bg-red-500"></span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBMoimVbEOxN9QTgurQGV2N9qXA3zqN2TlKwSW2bExXLE2oePva5A65aOrXS3R0MYex8DesrK-3K9ytjFefwrqk97vn8Hxe-A26sbT3WLTlIj9BC3N7HzVw0U6v1Ap-EjcOJNN6bRgdqR_yfR99HFKi2bL5jD8yvB5ALjz5kR4Wi0tvkjj2gRF9bF8HMs7_brV6nqvq8zpwg-uBu--bqfEyN4YdXfCGDlgGYxxwN-Nfgis9GFiT8gJNrdDOM6xrjF-p97R6yZppzQ");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+<div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+<h2 class="text-3xl font-bold text-[var(--text-primary)]">Medicine Inventory</h2>
+<button class="inline-flex items-center justify-center gap-2 rounded-md bg-[var(--primary-color)] px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[var(--accent-color)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-offset-2">
+<span class="material-symbols-outlined">add</span>
+<span>Add Medicine</span>
+</button>
+</div>
+<div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+<div class="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+<div class="relative">
+<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+<span class="material-symbols-outlined text-[var(--text-secondary)]">search</span>
+</div>
+<input class="block w-full rounded-md border-gray-300 bg-gray-50 pl-10 pr-4 py-2 text-sm text-[var(--text-primary)] focus:border-[var(--primary-color)] focus:ring-[var(--primary-color)]" placeholder="Search by name or supplier" type="text"/>
+</div>
+<div>
+<select class="block w-full rounded-md border-gray-300 bg-gray-50 py-2 px-3 text-sm text-[var(--text-secondary)] focus:border-[var(--primary-color)] focus:ring-[var(--primary-color)]">
+<option>All Dosage Forms</option>
+<option>Capsule</option>
+<option>Tablet</option>
+<option>Syrup</option>
+</select>
+</div>
+<div>
+<select class="block w-full rounded-md border-gray-300 bg-gray-50 py-2 px-3 text-sm text-[var(--text-secondary)] focus:border-[var(--primary-color)] focus:ring-[var(--primary-color)]">
+<option>All Strengths</option>
+<option>500mg</option>
+<option>200mg</option>
+<option>120mg/5ml</option>
+</select>
+</div>
+<div>
+<select class="block w-full rounded-md border-gray-300 bg-gray-50 py-2 px-3 text-sm text-[var(--text-secondary)] focus:border-[var(--primary-color)] focus:ring-[var(--primary-color)]">
+<option>All Suppliers</option>
+<option>MediCorp</option>
+<option>HealthFirst</option>
+<option>PharmaGlobal</option>
+</select>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-sm text-left text-[var(--text-secondary)]">
+<thead class="bg-gray-50 text-xs uppercase text-[var(--text-secondary)]">
+<tr>
+<th class="px-6 py-3" scope="col">Name</th>
+<th class="px-6 py-3" scope="col">Dosage Form</th>
+<th class="px-6 py-3" scope="col">Strength</th>
+<th class="px-6 py-3 text-center" scope="col">Quantity</th>
+<th class="px-6 py-3" scope="col">Expiry Date</th>
+<th class="px-6 py-3" scope="col">Supplier</th>
+<th class="px-6 py-3 text-right" scope="col">Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b bg-white hover:bg-gray-50">
+<td class="px-6 py-4 font-medium text-[var(--text-primary)]">Amoxicillin</td>
+<td class="px-6 py-4">Capsule</td>
+<td class="px-6 py-4">500mg</td>
+<td class="px-6 py-4 text-center">
+<span class="inline-flex items-center rounded-md bg-green-100 px-2.5 py-0.5 text-sm font-medium text-green-800">250</span>
+</td>
+<td class="px-6 py-4">2024-12-31</td>
+<td class="px-6 py-4">MediCorp</td>
+<td class="px-6 py-4 text-right">
+<button class="font-medium text-[var(--primary-color)] hover:underline"><span class="material-symbols-outlined text-base">edit</span></button>
+<button class="font-medium text-red-600 hover:underline ml-2"><span class="material-symbols-outlined text-base">delete</span></button>
+</td>
+</tr>
+<tr class="border-b bg-white hover:bg-gray-50">
+<td class="px-6 py-4 font-medium text-[var(--text-primary)]">Ibuprofen</td>
+<td class="px-6 py-4">Tablet</td>
+<td class="px-6 py-4">200mg</td>
+<td class="px-6 py-4 text-center">
+<span class="inline-flex items-center rounded-md bg-green-100 px-2.5 py-0.5 text-sm font-medium text-green-800">500</span>
+</td>
+<td class="px-6 py-4">2025-06-15</td>
+<td class="px-6 py-4">HealthFirst</td>
+<td class="px-6 py-4 text-right">
+<button class="font-medium text-[var(--primary-color)] hover:underline"><span class="material-symbols-outlined text-base">edit</span></button>
+<button class="font-medium text-red-600 hover:underline ml-2"><span class="material-symbols-outlined text-base">delete</span></button>
+</td>
+</tr>
+<tr class="border-b bg-white hover:bg-gray-50">
+<td class="px-6 py-4 font-medium text-[var(--text-primary)]">Paracetamol</td>
+<td class="px-6 py-4">Syrup</td>
+<td class="px-6 py-4">120mg/5ml</td>
+<td class="px-6 py-4 text-center">
+<span class="inline-flex items-center rounded-md bg-yellow-100 px-2.5 py-0.5 text-sm font-medium text-yellow-800">150</span>
+</td>
+<td class="px-6 py-4">2024-11-20</td>
+<td class="px-6 py-4">PharmaGlobal</td>
+<td class="px-6 py-4 text-right">
+<button class="font-medium text-[var(--primary-color)] hover:underline"><span class="material-symbols-outlined text-base">edit</span></button>
+<button class="font-medium text-red-600 hover:underline ml-2"><span class="material-symbols-outlined text-base">delete</span></button>
+</td>
+</tr>
+<tr class="border-b bg-white hover:bg-gray-50">
+<td class="px-6 py-4 font-medium text-[var(--text-primary)]">Cetirizine</td>
+<td class="px-6 py-4">Tablet</td>
+<td class="px-6 py-4">10mg</td>
+<td class="px-6 py-4 text-center">
+<span class="inline-flex items-center rounded-md bg-green-100 px-2.5 py-0.5 text-sm font-medium text-green-800">300</span>
+</td>
+<td class="px-6 py-4">2025-01-10</td>
+<td class="px-6 py-4">MediCorp</td>
+<td class="px-6 py-4 text-right">
+<button class="font-medium text-[var(--primary-color)] hover:underline"><span class="material-symbols-outlined text-base">edit</span></button>
+<button class="font-medium text-red-600 hover:underline ml-2"><span class="material-symbols-outlined text-base">delete</span></button>
+</td>
+</tr>
+<tr class="border-b bg-white hover:bg-gray-50">
+<td class="px-6 py-4 font-medium text-[var(--text-primary)]">Omeprazole</td>
+<td class="px-6 py-4">Capsule</td>
+<td class="px-6 py-4">20mg</td>
+<td class="px-6 py-4 text-center">
+<span class="inline-flex items-center rounded-md bg-yellow-100 px-2.5 py-0.5 text-sm font-medium text-yellow-800">200</span>
+</td>
+<td class="px-6 py-4 text-red-600 font-bold">2024-10-05 (Expiring Soon)</td>
+<td class="px-6 py-4">HealthFirst</td>
+<td class="px-6 py-4 text-right">
+<button class="font-medium text-[var(--primary-color)] hover:underline"><span class="material-symbols-outlined text-base">edit</span></button>
+<button class="font-medium text-red-600 hover:underline ml-2"><span class="material-symbols-outlined text-base">delete</span></button>
+</td>
+</tr>
+<tr class="border-b bg-white hover:bg-gray-50">
+<td class="px-6 py-4 font-medium text-[var(--text-primary)]">Loratadine</td>
+<td class="px-6 py-4">Tablet</td>
+<td class="px-6 py-4">10mg</td>
+<td class="px-6 py-4 text-center">
+<span class="inline-flex items-center rounded-md bg-green-100 px-2.5 py-0.5 text-sm font-medium text-green-800">400</span>
+</td>
+<td class="px-6 py-4">2025-03-22</td>
+<td class="px-6 py-4">PharmaGlobal</td>
+<td class="px-6 py-4 text-right">
+<button class="font-medium text-[var(--primary-color)] hover:underline"><span class="material-symbols-outlined text-base">edit</span></button>
+<button class="font-medium text-red-600 hover:underline ml-2"><span class="material-symbols-outlined text-base">delete</span></button>
+</td>
+</tr>
+<tr class="border-b bg-red-100/50 hover:bg-red-100/70">
+<td class="px-6 py-4 font-medium text-[var(--text-primary)]">Metformin</td>
+<td class="px-6 py-4">Tablet</td>
+<td class="px-6 py-4">500mg</td>
+<td class="px-6 py-4 text-center">
+<span class="inline-flex items-center rounded-md bg-red-100 px-2.5 py-0.5 text-sm font-medium text-red-800">50 (Low Stock)</span>
+</td>
+<td class="px-6 py-4">2024-09-18</td>
+<td class="px-6 py-4">MediCorp</td>
+<td class="px-6 py-4 text-right">
+<button class="font-medium text-[var(--primary-color)] hover:underline"><span class="material-symbols-outlined text-base">edit</span></button>
+<button class="font-medium text-red-600 hover:underline ml-2"><span class="material-symbols-outlined text-base">delete</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<nav aria-label="Pagination" class="mt-4 flex items-center justify-between border-t border-gray-200 px-4 py-3 sm:px-6">
+<div class="hidden sm:block">
+<p class="text-sm text-[var(--text-secondary)]">
+                Showing
+                <span class="font-medium">1</span>
+                to
+                <span class="font-medium">7</span>
+                of
+                <span class="font-medium">20</span>
+                results
+              </p>
+</div>
+<div class="flex flex-1 justify-between sm:justify-end">
+<a class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-[var(--text-secondary)] hover:bg-gray-50" href="#">Previous</a>
+<a class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-[var(--text-secondary)] hover:bg-gray-50" href="#">Next</a>
+</div>
+</nav>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>
