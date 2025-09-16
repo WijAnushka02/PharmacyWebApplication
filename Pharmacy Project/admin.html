@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Pharmacy - Add User</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div class="head">
+        <h1>Online Pharmacy admin Account</h1>
+    </div>
+
+    <div class="add_user">
+        <form action="register_user.php" method="POST" autocomplete="off">
+            <h1 class="first">Add New Admin</h1>
+            <span>Fill the details below to create a new user account</span>
+            <br><br>
+
+            <!-- Full Name -->
+            <div class="name">
+                <label for="fullname">Full Name:</label><br>
+                <input type="text" id="fullname" name="fullname" placeholder="Enter Full Name" required>
+            </div>
+            <br>
+
+            <!-- Email -->
+            <div class="email">
+                <label for="email">Email Address:</label><br>
+                <input type="email" id="email" name="email" placeholder="Enter Email Address" required>
+            </div>
+            <br>
+
+            <!-- Password -->
+            <div class="password">
+                <label for="password">Password:</label><br>
+                <input type="password" id="password" name="password" placeholder="Enter a Strong Password" minlength="6" required>
+            </div>
+            <br>
+
+            <!-- Confirm Password -->
+            <div class="password">
+                <label for="confirm_password">Confirm Password:</label><br>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Re-enter Password" minlength="6" required>
+            </div>
+            <br>
+
+            <!-- Role -->
+            <div class="role">
+                <label for="role">Role:</label><br>
+                <select name="role" id="role" required>
+                    <option value="">-- Select Role --</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Supervisor">Supervisor</option>
+                    <option value="Staff">Staff</option>
+                    <option value="Pharmacist">Pharmacist</option>
+                </select>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit">Add User</button>
+        </form>
+    </div>
+</body>
+</html>
