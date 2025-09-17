@@ -1,3 +1,70 @@
+<?php
+session_start();
+
+// Database credentials
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "Pharmacy_db";
+
+// Create a new database connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check if the connection was successful
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$message = "";
+
+// Check if the form was submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = htmlspecialchars($_POST['email']);
+    $password = htmlspecialchars($_POST['password']);
+
+    // Define the tables and corresponding roles
+    $roles = [
+        'admin_users' => 'admin',
+        'staff_users' => 'staff',
+        'patient_users' => 'patient'
+    ];
+
+    $found_user = false;
+
+    // Iterate through roles/tables to find the user
+    foreach ($roles as $table_name => $role) {
+        // Prepare the SQL statement to prevent SQL injection
+        $sql = "SELECT id, email, password FROM $table_name WHERE email = ?";
+        
+        if ($stmt = $conn->prepare($sql)) {
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+                $user = $result->fetch_assoc();
+                
+                // Verify the password with the stored hash
+                if (password_verify($password, $user['password'])) {
+                    // Set session variables
+                    $_SESSION['loggedin'] = true;
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['user_role'] = $role;
+
+                    // Redirect to the appropriate dashboard
+                    header("Location: " . strtolower($role) . "_dashboard.php");
+                    exit;
+                }
+            }
+        }
+    }
+    
+    // If the loop finishes without a match, display an error message
+    $message = "<div style='color: red; text-align: center; margin-bottom: 15px;'>Invalid email or password.</div>";
+}
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,9 +90,6 @@
             background-color: var(--background-color);
             color: var(--text-primary);
         }
-        
-        /* Updated Navigation CSS for dropdown */
-
         
         .dropdown {
             position: relative;
@@ -57,7 +121,6 @@
             display: block;
         }
 
-        /* Main Content and Login Form Styling */
         .main-content {
             display: flex;
             justify-content: center;
@@ -187,7 +250,7 @@
         }
 
         .google-button i {
-            color: #db4437; /* Google red */
+            color: #db4437;
         }
 
         .facebook-button {
@@ -217,13 +280,12 @@
             color: #1a4d1d;
         }
 
-        /* Footer Styling */
         .new-footer {
-            background-color: #f0f2f5; /* Light background as in Image 2 */
-            color: #4b5563; /* Text color as in Image 2 */
+            background-color: #f0f2f5;
+            color: #4b5563;
             padding: 20px;
             text-align: center;
-            border-top: 1px solid #e5e7eb; /* Border top as in Image 2 */
+            border-top: 1px solid #e5e7eb;
         }
 
         .new-footer-content {
@@ -276,7 +338,7 @@
         }
 
         .new-footer-right .social-icons a {
-            color: #9ca3af; /* Social icon color as in Image 2 */
+            color: #9ca3af;
             font-size: 1.5rem;
             transition: color 0.3s;
         }
@@ -295,45 +357,6 @@
     </style>
 </head>
 <body class="bg-[var(--background-color)] text-[var(--text-primary)]">
-
-    <?php
-
-        // Database configuration
-        $servername = "localhost"; // The server name. 'localhost' is common for local development.
-        $username = "root"; // Your database username.
-        $password = ""; // Your database password.
-        $dbname = "Pharmacy_db"; // The name of your database.
-
-        // Create a new database connection
-        $conn = new mysqli($servername, $username, $password, $dbname);
-
-        // Check if the connection was successful
-        if ($conn->connect_error) {
-        // If the connection fails, terminate the script and display an error
-        die("Connection failed: " . $conn->connect_error);
-        }
-        // This is a very basic example and is NOT secure for a real application.
-        // For a real-world project, you need to use a database and password hashing.
-
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $email = htmlspecialchars($_POST['email']);
-            $password = htmlspecialchars($_POST['password']);
-
-            // Dummy credentials for demonstration purposes
-            $valid_email = "test@example.com";
-            $valid_password = "password123";
-            $message = "";
-
-            if ($email === $valid_email && $password === $valid_password) {
-                // Successful login - In a real app, you would start a session here
-                $message = "<div style='color: green; text-align: center; margin-bottom: 15px;'>Login successful!</div>";
-                // Redirect to a user dashboard, e.g., header("Location: dashboard.php");
-            } else {
-                // Failed login
-                $message = "<div style='color: red; text-align: center; margin-bottom: 15px;'>Invalid email or password.</div>";
-            }
-        }
-    ?>
     <header class="border-b border-gray-200">
         <div class="container mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
             <div class="flex items-center gap-8">
@@ -401,7 +424,7 @@
                 <div class="hidden items-center gap-2 md:flex">
                     <a class="rounded-md bg-[var(--secondary-color)] px-4 py-2 text-sm font-medium text-[var(--primary-color)] hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-opacity-50 transition-colors duration-200" href="#">Offers</a>
                     <a class="rounded-md bg-[var(--primary-color)] px-4 py-2 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-opacity-50 transition-colors duration-200" href="#">Sign In</a>
-                    <a class="rounded-md border border-[var(--primary-color)] px-4 py-2 text-sm font-medium text-[var(--primary-color)] hover:bg-[var(--secondary-color)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-opacity-50 transition-colors duration-200" href="#">Sign Up</a>
+                    <a class="rounded-md border border-[var(--primary-color)] px-4 py-2 text-sm font-medium text-[var(--primary-color)] hover:bg-[var(--secondary-color)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-opacity-50 transition-colors duration-200" href="../Sign Up/signup_main.php">Sign Up</a>
                 </div>
                 <button class="relative rounded-full bg-gray-100 p-2 text-gray-600 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-offset-2">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -426,11 +449,11 @@
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="someone@gamil.com">
+                        <input type="email" id="email" name="email" placeholder="someone@gamil.com" required>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" id="password" name="password" placeholder="At least 8 characters">
+                        <input type="password" id="password" name="password" placeholder="At least 8 characters" required>
                     </div>
                     <div class="form-options">
                         <label>
@@ -442,15 +465,15 @@
                     <div class="or-divider">Or</div>
                 </form>
                 <div class="social-login">
-                    <button class="social-button google-button">
+                    <a href="https://accounts.google.com/o/oauth2/auth?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code&scope=openid%20email%20profile" class="social-button google-button">
                         <i class="fab fa-google"></i> Sign in with Google
-                    </button>
-                    <button class="social-button facebook-button">
+                    </a>
+                    <a href="https://www.facebook.com/v15.0/dialog/oauth?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&scope=email" class="social-button facebook-button">
                         <i class="fab fa-facebook"></i> Sign in with Facebook
-                    </button>
+                    </a>
                 </div>
                 <div class="signup-link">
-                    Don't you have an account? <a href="#">Sign Up</a>
+                    Don't you have an account? <a href="../Sign Up/signup_main.php">Sign Up</a>
                 </div>
             </div>
         </div>

@@ -1,3 +1,86 @@
+<?php
+
+    // Database configuration
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "Pharmacy_db";
+
+    // Create a new database connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    // Check if the connection was successful
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $message = "";
+
+    // Process form submission
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $firstName = $_POST['first_name'];
+        $lastName = $_POST['last_name'];
+        $staffId = $_POST['staff_id'];
+        $phone = $_POST['phone'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $confirmPassword = $_POST['confirm_password'];
+        $address = $_POST['address'];
+
+        // Basic validation
+        if (empty($firstName) || empty($lastName) || empty($staffId) || empty($phone) || empty($email) || empty($password) || empty($confirmPassword) || empty($address)) {
+            $message = "<div style='color: red; text-align: center; margin-bottom: 15px;'>Please fill in all fields.</div>";
+        } elseif ($password !== $confirmPassword) {
+            $message = "<div style='color: red; text-align: center; margin-bottom: 15px;'>Passwords do not match.</div>";
+        } else {
+            // Check if the table 'staff_users' exists.
+            $tableCheckQuery = "SHOW TABLES LIKE 'staff_users'";
+            $tableResult = $conn->query($tableCheckQuery);
+
+            if ($tableResult->num_rows == 0) {
+                // If the table doesn't exist, create it.
+                $createTableSql = "CREATE TABLE staff_users (
+                    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                    first_name VARCHAR(50) NOT NULL,
+                    last_name VARCHAR(50) NOT NULL,
+                    staff_id VARCHAR(20) NOT NULL,
+                    phone VARCHAR(20) NOT NULL,
+                    email VARCHAR(100) NOT NULL,
+                    password VARCHAR(255) NOT NULL,
+                    address TEXT NOT NULL,
+                    reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                )";
+
+                if ($conn->query($createTableSql) === TRUE) {
+                    $message .= "<div style='color: green; text-align: center; margin-bottom: 5px;'>Table 'staff_users' created successfully.</div>";
+                } else {
+                    $message .= "<div style='color: red; text-align: center; margin-bottom: 5px;'>Error creating table: " . $conn->error . "</div>";
+                }
+            }
+            
+            // Hash the password for security
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+            // SQL query to insert data into the 'staff_users' table.
+            // Use a prepared statement to prevent SQL injection
+            $insertSql = "INSERT INTO staff_users (first_name, last_name, staff_id, phone, email, password, address) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            
+            $stmt = $conn->prepare($insertSql);
+            $stmt->bind_param("sssssss", $firstName, $lastName, $staffId, $phone, $email, $hashedPassword, $address);
+
+            if ($stmt->execute()) {
+                $message .= "<div style='color: green; text-align: center; margin-bottom: 15px;'>Staff account created successfully!</div>";
+            } else {
+                $message .= "<div style='color: red; text-align: center; margin-bottom: 15px;'>Error: " . $stmt->error . "</div>";
+            }
+
+            $stmt->close();
+        }
+    }
+    // Close the database connection
+    $conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -317,51 +400,6 @@
     </style>
 </head>
 <body>
-
-    <?php
-
-        // Database configuration
-        $servername = "localhost"; // The server name. 'localhost' is common for local development.
-        $username = "root"; // Your database username.
-        $password = ""; // Your database password.
-        $dbname = "Pharmacy_db"; // The name of your database.
-
-        // Create a new database connection
-        $conn = new mysqli($servername, $username, $password, $dbname);
-
-        // Check if the connection was successful
-        if ($conn->connect_error) {
-        // If the connection fails, terminate the script and display an error
-        die("Connection failed: " . $conn->connect_error);
-        }
-
-        // A simple PHP script to process form submission.
-        // NOTE: This is for demonstration only and is not secure or production-ready.
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $firstName = $_POST['first_name'];
-            $lastName = $_POST['last_name'];
-            $staffId = $_POST['staff_id'];
-            $phone = $_POST['phone'];
-            $email = $_POST['email'];
-            $password = $_POST['password'];
-            $confirmPassword = $_POST['confirm_password'];
-            $address = $_POST['address'];
-            
-            $message = "";
-
-            // Basic validation
-            if (empty($firstName) || empty($lastName) || empty($staffId) || empty($phone) || empty($email) || empty($password) || empty($confirmPassword) || empty($address)) {
-                $message = "<div style='color: red; text-align: center; margin-bottom: 15px;'>Please fill in all fields.</div>";
-            } elseif ($password !== $confirmPassword) {
-                $message = "<div style='color: red; text-align: center; margin-bottom: 15px;'>Passwords do not match.</div>";
-            } else {
-                // In a real application, you would save this data to a database.
-                // The password should be hashed before saving (e.g., using password_hash()).
-                $message = "<div style='color: green; text-align: center; margin-bottom: 15px;'>Staff account created successfully!</div>";
-                // Redirect user to login page or dashboard after a short delay
-            }
-        }
-    ?>
 
     <header class="header">
         <div class="logo">
