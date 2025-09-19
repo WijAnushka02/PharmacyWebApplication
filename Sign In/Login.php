@@ -461,7 +461,9 @@ $conn->close();
                         </label>
                         <a href="#">Forgot Password?</a>
                     </div>
+                    <a href="../Home/index.html">
                     <button type="submit" class="sign-in-button">Sign In</button>
+                    </a>
                     <div class="or-divider">Or</div>
                 </form>
                 <div class="social-login">

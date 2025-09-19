@@ -407,7 +407,9 @@
                         <input type="password" id="confirm_password" name="confirm_password" placeholder="At least 8 characters">
                     </div>
                 </div>
-                <button type="submit" class="signup-button">Sign Up</button>
+                <a href="../Home/index.html">
+                    <button type="submit" class="signup-button">Sign Up</button>
+                </a>
             </form>
         </div>
     </main>

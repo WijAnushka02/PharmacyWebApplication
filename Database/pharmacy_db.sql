@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 13, 2025 at 07:03 PM
+-- Generation Time: Sep 17, 2025 at 11:15 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -76,6 +76,29 @@ INSERT INTO `admin_staff_role` (`Admin_ID`, `Pharmacist_ID`, `Role`) VALUES
 (8, 108, 'Junior Pharmacist'),
 (9, 109, 'Senior Pharmacist'),
 (10, 110, 'Junior Pharmacist');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_users`
+--
+
+CREATE TABLE `admin_users` (
+  `id` int(6) UNSIGNED NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `reg_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin_users`
+--
+
+INSERT INTO `admin_users` (`id`, `first_name`, `last_name`, `phone`, `email`, `password`, `reg_date`) VALUES
+(1, 'anushka', 'wijesinghe', '0781847525', 'anushkadilinuwan03@gmail.com', '$2y$10$2uLSz6D2yuZIXj9sT93U9OjF71PVymxmHS6f/.ejVczAIsOmYYK6S', '2025-09-15 09:55:52');
 
 -- --------------------------------------------------------
 
@@ -196,6 +219,30 @@ INSERT INTO `order_contains_medicine` (`Order_ID`, `Medicine_ID`, `Quantity`) VA
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `patient_users`
+--
+
+CREATE TABLE `patient_users` (
+  `id` int(6) UNSIGNED NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `address` text NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `reg_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `patient_users`
+--
+
+INSERT INTO `patient_users` (`id`, `first_name`, `last_name`, `phone`, `address`, `email`, `password`, `reg_date`) VALUES
+(1, 'Anushka', 'Wijesinghe', '0781847525', 'cn n cnmbvbxc mjhdhfhjdsh\r\ncbjhbvc\r\nbcbzhbcbv', 'anushkadilinuwan03@gmail.com', '$2y$10$mal38sLXIpdW1n6R.3hh7.9RTgik44aUI2kNzoSdTEqx7NpCB33jG', '2025-09-15 10:08:03');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `perception`
 --
 
@@ -287,6 +334,31 @@ INSERT INTO `staff_supplies_medicine` (`Pharmacist_ID`, `Supplier_ID`, `Medicine
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `staff_users`
+--
+
+CREATE TABLE `staff_users` (
+  `id` int(6) UNSIGNED NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `staff_id` varchar(20) NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `address` text NOT NULL,
+  `reg_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `staff_users`
+--
+
+INSERT INTO `staff_users` (`id`, `first_name`, `last_name`, `staff_id`, `phone`, `email`, `password`, `address`, `reg_date`) VALUES
+(1, 'Anushka', 'Wijesinghe', '1111', '0781847525', 'anushkadilinuwan03@gmail.com', '$2y$10$gAv1KZ5F1B0tHImTNPzIlOfiZn.ezD5a1Afu/ZywRuXCOv6UAsXT.', 'cn n cnmbvbxc mjhdhfhjdsh\r\ncbjhbvc\r\nbcbzhbcbv', '2025-09-15 10:06:21');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `stock`
 --
 
@@ -363,6 +435,12 @@ ALTER TABLE `admin_staff_role`
   ADD KEY `Pharmacist_ID` (`Pharmacist_ID`);
 
 --
+-- Indexes for table `admin_users`
+--
+ALTER TABLE `admin_users`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `customer`
 --
 ALTER TABLE `customer`
@@ -390,6 +468,12 @@ ALTER TABLE `order_contains_medicine`
   ADD KEY `Medicine_ID` (`Medicine_ID`);
 
 --
+-- Indexes for table `patient_users`
+--
+ALTER TABLE `patient_users`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `perception`
 --
 ALTER TABLE `perception`
@@ -414,6 +498,12 @@ ALTER TABLE `staff_supplies_medicine`
   ADD KEY `Medicine_ID` (`Medicine_ID`);
 
 --
+-- Indexes for table `staff_users`
+--
+ALTER TABLE `staff_users`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `stock`
 --
 ALTER TABLE `stock`
@@ -425,6 +515,28 @@ ALTER TABLE `stock`
 ALTER TABLE `supplier`
   ADD PRIMARY KEY (`Supplier_ID`),
   ADD UNIQUE KEY `Email` (`Email`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `admin_users`
+--
+ALTER TABLE `admin_users`
+  MODIFY `id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `patient_users`
+--
+ALTER TABLE `patient_users`
+  MODIFY `id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `staff_users`
+--
+ALTER TABLE `staff_users`
+  MODIFY `id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
