@@ -16,61 +16,97 @@ if ($conn->connect_error) {
 }
 
 $message = "";
+$user = null;
+$userId = $_GET['id'] ?? null;
+$userRole = $_GET['role'] ?? null;
 
-// Check if the form was submitted
+// Function to find the user in the appropriate table
+function findUser($conn, $id, $role) {
+    $tableName = '';
+    switch ($role) {
+        case 'admin':
+            $tableName = 'admin_users';
+            break;
+        case 'staff':
+            $tableName = 'staff_users';
+            break;
+        case 'patient':
+            $tableName = 'patient_users';
+            break;
+        default:
+            return null;
+    }
+
+    $sql = "SELECT * FROM $tableName WHERE id = ?";
+    if ($stmt = $conn->prepare($sql)) {
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+        $stmt->close();
+        return $user;
+    }
+    return null;
+}
+
+// Handle form submission for updating user data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $userId = htmlspecialchars($_POST['user-id']);
+    $userRole = htmlspecialchars($_POST['user-role']);
+    $firstName = htmlspecialchars($_POST['first-name']);
+    $lastName = htmlspecialchars($_POST['last-name']);
     $email = htmlspecialchars($_POST['email']);
-    $password = htmlspecialchars($_POST['password']);
 
-    // Define the tables and corresponding roles
-    $roles = [
-        'admin_users' => 'admin',
-        'staff_users' => 'staff',
-        'patient_users' => 'patient'
-    ];
+    // Check if the user is in the correct table
+    $tableName = '';
+    switch ($userRole) {
+        case 'admin':
+            $tableName = 'admin_users';
+            break;
+        case 'staff':
+            $tableName = 'staff_users';
+            break;
+        case 'patient':
+            $tableName = 'patient_users';
+            break;
+    }
 
-    $found_user = false;
-
-    // Iterate through roles/tables to find the user
-    foreach ($roles as $table_name => $role) {
-        // Prepare the SQL statement to prevent SQL injection
-        $sql = "SELECT id, email, password FROM $table_name WHERE email = ?";
-        
+    if ($tableName) {
+        $sql = "UPDATE $tableName SET first_name = ?, last_name = ?, email = ? WHERE id = ?";
         if ($stmt = $conn->prepare($sql)) {
-            $stmt->bind_param("s", $email);
-            $stmt->execute();
-            $result = $stmt->get_result();
-
-            if ($result->num_rows > 0) {
-                $user = $result->fetch_assoc();
-                
-                // Verify the password with the stored hash
-                if (password_verify($password, $user['password'])) {
-                    // Set session variables
-                    $_SESSION['loggedin'] = true;
-                    $_SESSION['user_id'] = $user['id'];
-                    $_SESSION['user_role'] = $role;
-
-                    // Redirect to the appropriate dashboard
-                    header("Location: " . strtolower($role) . "_dashboard.php");
-                    exit;
-                }
+            $stmt->bind_param("sssi", $firstName, $lastName, $email, $userId);
+            if ($stmt->execute()) {
+                $message = "<div style='color: green; text-align: center; margin-bottom: 15px;'>User updated successfully!</div>";
+                // Re-fetch the user data to show the updated information
+                $user = findUser($conn, $userId, $userRole);
+            } else {
+                $message = "<div style='color: red; text-align: center; margin-bottom: 15px;'>Error updating user: " . $stmt->error . "</div>";
             }
+            $stmt->close();
+        } else {
+            $message = "<div style='color: red; text-align: center; margin-bottom: 15px;'>Database error: " . $conn->error . "</div>";
         }
     }
-    
-    // If the loop finishes without a match, display an error message
-    $message = "<div style='color: red; text-align: center; margin-bottom: 15px;'>Invalid email or password.</div>";
+} else {
+    // Initial page load: fetch user data
+    if ($userId && $userRole) {
+        $user = findUser($conn, $userId, $userRole);
+        if (!$user) {
+            $message = "<div style='color: red; text-align: center; margin-bottom: 15px;'>User not found.</div>";
+        }
+    } else {
+        $message = "<div style='color: red; text-align: center; margin-bottom: 15px;'>User ID and role are required to edit.</div>";
+    }
 }
+
 $conn->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Sign In - MediCare Pharmacy</title>
+    <title>Edit User - MediCare Pharmacy</title>
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
@@ -128,65 +164,73 @@ $conn->close();
             padding: 50px 20px;
         }
 
-        .login-container {
+        .form-container {
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
             padding: 40px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            max-width: 400px;
+            max-width: 600px;
             width: 100%;
         }
 
-        .login-box h2 {
+        .form-container h2 {
+            color: var(--accent-color);
             text-align: center;
-            color: #333;
-            margin-bottom: 30px;
+            font-size: 1.8em;
+            margin-bottom: 5px;
         }
 
-        .form-group {
+        .form-container p {
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
             margin-bottom: 20px;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #555;
+        .form-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group.full-width {
+            flex: none;
+            width: 100%;
         }
 
-        .form-group input {
-            width: 100%;
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--text-secondary);
+        }
+
+        .form-group input, .form-group select {
             padding: 12px;
             border: 1px solid #ddd;
             border-radius: 8px;
-            box-sizing: border-box;
             font-size: 1em;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .form-group select {
+            appearance: none;
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.25 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z" clip-rule="evenodd" /></svg>');
+            background-repeat: no-repeat;
+            background-position: right 0.7rem center;
+            background-size: 1.5em 1.5em;
         }
 
-        .form-options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            font-size: 0.9em;
-        }
-
-        .form-options a {
-            color: #2e7d32;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .form-options a:hover {
-            color: #1a4d1d;
-        }
-
-        .sign-in-button {
+        .edit-user-button {
             width: 100%;
             padding: 15px;
             border: none;
             border-radius: 8px;
-            background-color: #2e7d32;
+            background-color: #34D399; /* Updated to primary-color */
             color: white;
             font-size: 1.1em;
             cursor: pointer;
@@ -194,90 +238,8 @@ $conn->close();
             transition: background-color 0.3s ease;
         }
 
-        .sign-in-button:hover {
-            background-color: #216124;
-        }
-
-        .or-divider {
-            text-align: center;
-            position: relative;
-            margin: 30px 0;
-            color: #777;
-            font-size: 0.9em;
-        }
-
-        .or-divider::before, .or-divider::after {
-            content: '';
-            position: absolute;
-            width: 40%;
-            height: 1px;
-            background-color: #ddd;
-            top: 50%;
-        }
-
-        .or-divider::before {
-            left: 0;
-        }
-
-        .or-divider::after {
-            right: 0;
-        }
-
-        .social-login {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .social-button {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            font-size: 1em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: background-color 0.3s;
-        }
-
-        .google-button {
-            background-color: #fff;
-            color: #333;
-        }
-
-        .google-button i {
-            color: #db4437;
-        }
-
-        .facebook-button {
-            background-color: #1877f2;
-            color: white;
-            border: 1px solid #1877f2;
-        }
-
-        .facebook-button i {
-            color: white;
-        }
-
-        .signup-link {
-            text-align: center;
-            margin-top: 25px;
-            font-size: 0.9em;
-        }
-
-        .signup-link a {
-            color: #2e7d32;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-
-        .signup-link a:hover {
-            color: #1a4d1d;
+        .edit-user-button:hover {
+            background-color: #216124; /* Updated hover color */
         }
 
         .new-footer {
@@ -367,53 +329,53 @@ $conn->close();
                     <h1 class="text-2xl font-bold">MediCare</h1>
                 </a>
                 <nav class="hidden items-center gap-6 lg:flex">
-                    <a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--primary-color)]" href="../Home/index.html">Home</a>
-                    
+                    <a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--primary-color)]" href="../../Home/index.html">Home</a>
                     
                     
                 </nav>
             </div>
             
+                
+            </div>
         </div>
     </header>
 
     <main class="main-content">
-        <div class="login-container">
-            <div class="login-box">
-                <h2>Sign In</h2>
-                <?php if (isset($message)) echo $message; ?>
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+        <div class="form-container">
+            <h2>Edit User</h2>
+            <p>Update the user's information below.</p>
+            <?php if (isset($message)) echo $message; ?>
+            <?php if ($user): ?>
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                <input type="hidden" name="user-id" value="<?php echo htmlspecialchars($user['id']); ?>">
+                <input type="hidden" name="user-role" value="<?php echo htmlspecialchars($userRole); ?>">
+                <div class="form-row">
                     <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="someone@gamil.com" required>
+                        <label for="first-name">First Name</label>
+                        <input type="text" id="first-name" name="first-name" value="<?php echo htmlspecialchars($user['first_name']); ?>" required>
                     </div>
                     <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="password" placeholder="At least 8 characters" required>
+                        <label for="last-name">Last Name</label>
+                        <input type="text" id="last-name" name="last-name" value="<?php echo htmlspecialchars($user['last_name']); ?>" required>
                     </div>
-                    <div class="form-options">
-                        <label>
-                            <input type="checkbox" name="remember-me"> Remember Me
-                        </label>
-                        <a href="#">Forgot Password?</a>
+                </div>
+                <div class="form-group full-width">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required>
+                </div>
+                <div class="form-group full-width">
+                        <label for="role">Role</label>
+                        <select id="role" name="role" required>
+                            <option value="" disabled selected>Select a role</option>
+                            <option value="admin">Admin</option>
+                            <option value="staff">Staff</option>
+                            <option value="patient">Patient</option>
+                        </select>
                     </div>
-                    <a href="../Home/index.html">
-                    <button type="submit" class="sign-in-button">Sign In</button>
-                    </a>
-                    <div class="or-divider">Or</div>
-                </form>
-                <div class="social-login">
-                    <a href="https://accounts.google.com/o/oauth2/auth?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code&scope=openid%20email%20profile" class="social-button google-button">
-                        <i class="fab fa-google"></i> Sign in with Google
-                    </a>
-                    <a href="https://www.facebook.com/v15.0/dialog/oauth?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&scope=email" class="social-button facebook-button">
-                        <i class="fab fa-facebook"></i> Sign in with Facebook
-                    </a>
-                </div>
-                <div class="signup-link">
-                    Don't you have an account? <a href="../Sign Up/signup_main.php">Sign Up</a>
-                </div>
-            </div>
+                  
+                <button type="submit" class="edit-user-button">Update User</button>
+            </form>
+            <?php endif; ?>
         </div>
     </main>
 
@@ -477,6 +439,10 @@ $conn->close();
                 });
             }
         }
+
+        document.querySelectorAll('.dropdown a').forEach(link => {
+            link.addEventListener('click', toggleDropdown);
+        });
     </script>
 </body>
 </html>
